@@ -62,9 +62,6 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-
-// admin section...
-
 // admin section
 
 // Get all orders - ADMIN  =>   /api/v1/admin/orders/
