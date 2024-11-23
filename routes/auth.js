@@ -9,7 +9,11 @@ const {
     getUserProfile,
     updatePassword,
     logout,
-    updateProfile
+    updateProfile,
+    allUsers,
+    getUserDetails,
+    updateUser,
+    deleteUser,
 } = require("../controller/authController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
@@ -22,5 +26,15 @@ router.route("/password/reset/:token").put(resetPassword);
 router.route("/password/update").put(isAuthenticatedUser, updatePassword);
 router.route("/me").get(isAuthenticatedUser, getUserProfile);
 router.route("/me/update").put(isAuthenticatedUser, updateProfile);
+
+// admin
+router
+    .route("/admin/users")
+    .get(isAuthenticatedUser, authorizeRoles("admin"), allUsers);
+router
+    .route("/admin/user/:id")
+    .get(isAuthenticatedUser, authorizeRoles("admin"), getUserDetails)
+    .put(isAuthenticatedUser, authorizeRoles("admin"), updateUser)
+    .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
 
 module.exports = router;
