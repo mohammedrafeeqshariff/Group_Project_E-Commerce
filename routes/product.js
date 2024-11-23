@@ -2,7 +2,9 @@ const express = require("express");
 const {
     newProduct,
     getProducts,
-    getSingleProducts
+    getSingleProducts,
+    updateProduct,
+    getAdminProducts
 } = require("../controller/productController");
 
 const router = express.Router();
@@ -13,5 +15,10 @@ router
 
 router.route("/products").get(getProducts);
 router.route("/product/:id").get(getSingleProducts);
+
+router.route("/admin/products").get(getAdminProducts);
+router
+    .route("/admin/product/:id")
+    .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct)
 
 module.exports = router;
