@@ -15,10 +15,12 @@ const {
     updateUser,
     deleteUser,
 } = require("../controller/authController");
+
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
+
 router.route("/logout").get(logout);
 router.route("/password/forgot").post(forgotPassword);
 router.route("/password/reset/:token").put(resetPassword);
