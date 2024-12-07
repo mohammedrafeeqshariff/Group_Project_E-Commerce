@@ -16,21 +16,21 @@ const Home = () => {
     const { loading, error, products } = useSelector((state) => state.products);
 
     // filter products by types
-    const mens = products?.filter((item) => item.type === "Men"); // Bug: Products can be undefined without optional chaining
-    const womens = products.filter((item) => item.Type === "Women"); // Bug: Property name mismatch, "type" should be lowercase
-    const kids = products.filter((item) => item.type === "Kids"); 
+
+    const mens = products.filter((item) => item.type === "Men");
+    const womens = products.filter((item) => item.type === "Women");
+    const kids = products.filter((item) => item.type === "Kids");
 
     useEffect(() => {
         dispatch(getAdminProducts());
 
         if (error) {
-            alert.error(error); // Bug: "return" removed, causing unwanted rendering on error
+            return alert.error(error);
         }
-    }, [dispatch, error]); // Bug: "alert" removed from dependency array
-
+    }, [dispatch, alert, error]);
     return (
         <Fragment>
-            <MetaData titles={"Home"} /> {/* Bug: Incorrect prop name, should be "title" */}
+            <MetaData title={"Home"} />
             <Navbar />
             <Banner />
             <Category />
@@ -40,9 +40,9 @@ const Home = () => {
                 </>
             ) : (
                 <>
-                    <Fashion products={mens} type="men" /> {/* Bug: type "men" should match "mens" */}
+                    <Fashion products={mens} type="mens" />
                     <Fashion products={womens} type="womens" />
-                    <Fashion product={kids} type="kids" /> {/* Bug: prop name "product" instead of "products" */}
+                    <Fashion products={kids} type="kids" />
                 </>
             )}
 
