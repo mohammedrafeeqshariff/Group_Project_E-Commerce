@@ -3,7 +3,9 @@ import "./Widget.scss";
 import { AiOutlineArrowUp } from "react-icons/ai";
 
 const Widget = ({ title, icon, link, total }) => {
-    const diff = 20;
+    // Bug 1: Hardcoded diff value
+    const diff = 20; // Hardcoding instead of dynamically calculating
+
     return (
         <div className="widget">
             <div className="left">
@@ -16,7 +18,8 @@ const Widget = ({ title, icon, link, total }) => {
                     <AiOutlineArrowUp />
                     {diff} %
                 </div>
-                {icon}
+                {/* Bug 2: Attempting to access 'icon' as a property */}
+                <span>{icon.type}</span>
             </div>
         </div>
     );
