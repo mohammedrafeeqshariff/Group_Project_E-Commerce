@@ -3,83 +3,79 @@ import { Link } from "react-router-dom";
 import { MdOutlineDashboard, MdOutlineFavoriteBorder } from "react-icons/md";
 import { BiUserCircle } from "react-icons/bi";
 import { FiPlusSquare } from "react-icons/fi";
+
+import styles from "./Sidebar.module.scss";
 import { HiTemplate } from "react-icons/hi";
 import { AiFillStar, AiOutlineHome } from "react-icons/ai";
-import styles from "./Sidebar.module.scss";
 
 const Sidebar = () => {
-    const sections = [
-        {
-            title: "Main",
-            links: [
-                { to: "/", icon: <AiOutlineHome size={25} />, label: "Home" },
-                {
-                    to: "/admin",
-                    icon: <MdOutlineDashboard size={25} />,
-                    label: "Dashboard",
-                },
-            ],
-        },
-        {
-            title: "List",
-            links: [
-                {
-                    to: "/admin/products",
-                    icon: <HiTemplate size={25} />,
-                    label: "Products",
-                },
-                {
-                    to: "/admin/orders",
-                    icon: <MdOutlineFavoriteBorder size={25} />,
-                    label: "Orders",
-                },
-                {
-                    to: "/admin/users",
-                    icon: <BiUserCircle size={25} />,
-                    label: "Users",
-                },
-                {
-                    to: "/admin/reviews",
-                    icon: <AiFillStar size={25} />,
-                    label: "Reviews",
-                },
-            ],
-        },
-        {
-            title: "Service",
-            links: [
-                {
-                    to: "/admin/products/new",
-                    icon: <FiPlusSquare size={25} />,
-                    label: "Add Product",
-                },
-            ],
-        },
-    ];
-
     return (
-        <nav className={styles.sidebar} aria-label="Sidebar">
+        <div className={styles.sidebar}>
             <img
-                src="https://res.cloudinary.com/mehedi08h/image/upload/v1648446111/shopx/logo2_diozsh.png"
-                alt="ShopX Logo"
                 style={{ height: "40px" }}
+                src="https://res.cloudinary.com/mehedi08h/image/upload/v1648446111/shopx/logo2_diozsh.png"
+                alt=""
             />
-            {sections.map((section, index) => (
-                <div key={index}>
-                    <span>{section.title}</span>
-                    <ul className="mt-1">
-                        {section.links.map((link, idx) => (
-                            <li key={idx}>
-                                <Link to={link.to} className={styles.link}>
-                                    <span className="me-3">{link.icon}</span>
-                                    {link.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+            <div>
+                <span>Main</span>
+                <div className="mt-1">
+                    <li>
+                        <Link to="/">
+                            <AiOutlineHome className="me-3" size={25} />
+                            Home
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/admin">
+                            <MdOutlineDashboard className="me-3" size={25} />
+                            Dashboard
+                        </Link>
+                    </li>
                 </div>
-            ))}
-        </nav>
+            </div>
+            <div>
+                <span>List</span>
+                <div className="mt-1">
+                    <li>
+                        <Link to="/admin/products">
+                            <HiTemplate className="me-3" size={25} /> Products
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/admin/orders">
+                            <MdOutlineFavoriteBorder
+                                className="me-3"
+                                size={25}
+                            />
+                            Orders
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/admin/users">
+                            <BiUserCircle className="me-3" size={25} />
+                            Users
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/admin/reviews">
+                            <AiFillStar className="me-3" size={25} />
+                            Reviews
+                        </Link>
+                    </li>
+                </div>
+            </div>
+            <div>
+                <span>Service</span>
+                <div className="mt-1">
+                    <li>
+                        <Link to="/admin/products/new">
+                            <FiPlusSquare className="me-3" size={25} />
+                            Add Product
+                        </Link>
+                    </li>
+                </div>
+            </div>
+        </div>
     );
 };
 

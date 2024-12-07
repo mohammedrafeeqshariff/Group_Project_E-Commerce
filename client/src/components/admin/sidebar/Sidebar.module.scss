@@ -1,32 +1,23 @@
 .sidebar {
     min-height: 100vh;
     background: rgba(230, 228, 228, 0.25);
+    // box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     border: 1px solid rgba(255, 255, 255, 0.18);
+
     font-family: var(--font-roboto);
     padding: 1rem;
     width: 100%;
-
-    img {
-        display: block;
-        margin: 0 auto;
-        margin-bottom: 20px;
-    }
-
     div {
         margin-top: 30px;
-
         span {
             font-weight: 500;
             letter-spacing: 1px;
             font-size: 16px;
-            color: #333;
         }
-
-        ul {
+        div {
             display: flex;
             flex-direction: column;
             gap: 5px;
-
             li {
                 list-style: none;
                 padding: 10px 5px;
@@ -34,25 +25,18 @@
                 &:hover {
                     border-right: 4px solid #00ccd6;
                     background-color: #e6ffff;
-                    border-radius: 5px;
 
+                    border-radius: 5px;
                     a {
                         color: #00ccd6;
                     }
                 }
-
                 a {
-                    display: flex;
-                    align-items: center;
                     text-decoration: none;
                     font-weight: 500;
                     letter-spacing: 1px;
+                    padding: 10px 0px;
                     color: gray;
-                    transition: color 0.3s;
-
-                    span {
-                        margin-right: 10px; // Consistent spacing for icons
-                    }
                 }
             }
         }
