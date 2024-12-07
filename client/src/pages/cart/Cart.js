@@ -17,20 +17,17 @@ const Cart = ({ history }) => {
 
     const removeCartItemHandler = (id) => {
         dispatch(removeItemFromCart(id));
-        alert.success("Item Removed from Cart");
+        alert.success("Item Remove from Cart Success");
     };
 
-    // BUG: Stock check condition allows exceeding stock
     const increaseQty = (id, quantity, stock) => {
         const newQty = quantity + 1;
 
-        // Bug introduced: Incorrect stock check
-        if (newQty > stock + 1) return;
+        if (newQty > stock) return;
 
         dispatch(addItemToCart(id, newQty));
     };
 
-    // FIX: Correct condition to ensure stock limit is respected
     const decreaseQty = (id, quantity) => {
         const newQty = quantity - 1;
 
@@ -39,23 +36,9 @@ const Cart = ({ history }) => {
         dispatch(addItemToCart(id, newQty));
     };
 
-    // FIX: Update increaseQty with the correct stock check
-    const increaseQtyFixed = (id, quantity, stock) => {
-        const newQty = quantity + 1;
-
-        // Fixed condition: Strictly prevent exceeding stock
-        if (newQty > stock) {
-            alert.error("Cannot exceed available stock");
-            return;
-        }
-
-        dispatch(addItemToCart(id, newQty));
-    };
-
     const checkoutHandler = () => {
         history.push("/login?redirect=shipping");
     };
-
     return (
         <Fragment>
             <MetaData title={"Cart"} />
@@ -72,9 +55,12 @@ const Cart = ({ history }) => {
                                 <hr />
                                 <div>
                                     {cartItems.map((item) => (
-                                        <Fragment key={item.product}>
+                                        <Fragment>
                                             <hr />
-                                            <div className={styles.cart_item}>
+                                            <div
+                                                className={styles.cart_item}
+                                                key={item.product}
+                                            >
                                                 <div
                                                     className={`row ${styles.item_info}`}
                                                 >
@@ -101,7 +87,7 @@ const Cart = ({ history }) => {
                                                         </p>
                                                     </div>
 
-                                                    {/* Stock Counter */}
+                                                    {/* stock counter  */}
                                                     <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                                                         <div
                                                             className={
@@ -127,10 +113,9 @@ const Cart = ({ history }) => {
                                                                 readOnly
                                                             />
 
-                                                            {/* Replace the buggy function call with the fixed one */}
                                                             <span
                                                                 onClick={() =>
-                                                                    increaseQtyFixed(
+                                                                    increaseQty(
                                                                         item.product,
                                                                         item.quantity,
                                                                         item.stock
