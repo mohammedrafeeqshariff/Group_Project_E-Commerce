@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 const connectDatabase = require("./config/database");
-const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 const path = require("path");
 const errorMiddleware = require("./middleware/error");
 
@@ -38,11 +38,21 @@ connectDatabase();
 
 
 // Setting up cloudinary configuration
-// cloudinary.config({
-//     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//     api_key: process.env.CLOUDINARY_API_KEY,
-//     api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
+const ConnectCloudinary = async()=>{
+    try {
+        await cloudinary.config({
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET,
+        });
+        console.log('cloudinary configured');
+    } catch (error) {
+        console.log('could not connect', error.message)
+    }
+}
+
+ConnectCloudinary();
+
 
 app.use("/", (req, res) => {
     res.send("App is running.");
@@ -54,5 +64,5 @@ app.use(errorMiddleware);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log("Server is running on port", PORT);
+    console.log(`Server is running on port http://localhost:${PORT}`);
 });

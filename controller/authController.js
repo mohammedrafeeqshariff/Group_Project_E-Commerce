@@ -7,29 +7,53 @@ const cloudinary = require("cloudinary");
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 
-
 // Register a user   => /api/v1/register
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: "shopx/avatar",
-        width: 150,
-        crop: "scale",
-    });
+    const { name, email, password, phone, address, avatar } = req.body;
 
-    const { name, email, password } = req.body;
+    // Log incoming data for debugging
+    console.log("Request Body:", req.body);
 
-    const user = await User.create({
-        name,
-        email,
-        password,
-        avatar: {
-            public_id: result.public_id,
-            url: result.secure_url,
-        },
-    });
+    // Validate avatar
+    if (!avatar || typeof avatar !== "string") {
+        return next(
+            new ErrorHandler("Avatar must be a valid string (URL or file path)", 400)
+        );
+    }
 
-    sendToken(user, 200, res);
+    try {
+        // Upload avatar to Cloudinary
+        console.log("Uploading avatar to Cloudinary...");
+        const result = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "shopx/avatar",
+            width: 150,
+            crop: "scale",
+        });
+
+        console.log("Cloudinary Upload Result:", result);
+
+        // Create a new user
+        const user = await User.create({
+            name,
+            email,
+            password,
+            phone,
+            address,
+            avatar: {
+                public_id: result.public_id,
+                url: result.secure_url,
+            },
+        });
+
+        // Send token to the user
+        sendToken(user, 200, res);
+    } catch (error) {
+        console.error("Error occurred during user registration:", error.message);
+        return next(new ErrorHandler(error.message, 500));
+    }
 });
+
+
 
 
 // Login User  =>  /api/v1/login
